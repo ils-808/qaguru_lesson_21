@@ -3,7 +3,7 @@ from typing import Literal
 import allure
 import allure_commons
 import pytest
-from selenium import webdriver
+from appium import webdriver
 
 from utils import attach
 from utils.resource_handler import path
@@ -31,8 +31,8 @@ def configure_android_options():
     options = UiAutomator2Options().load_capabilities({
         # Specify device and os_version for testing
         "platformName": "android",
-        "platformVersion": "9.0",
-        "deviceName": "Google Pixel 3",
+        "platformVersion": "13.0",
+        "deviceName": "Samsung Galaxy S23 Ultra",
 
         # Set URL of the application under test
         "app": config.url,
@@ -53,14 +53,14 @@ def configure_android_options():
 
     yield
 
-    # handle_attachments()
+    handle_attachments()
 
-    with allure.step('Close app'):
-        browser.quit()
+    # with allure.step('Close app'):
+    #    browser.quit()
 
 
 @pytest.fixture(scope='function')
-def configure_ios_oprtions():
+def configure_ios_options():
     options = XCUITestOptions().load_capabilities({
         # Set URL of the application under test
         "app": config.url,
@@ -84,73 +84,24 @@ def configure_ios_oprtions():
 
     yield
 
-    # handle_attachments()
-    with allure.step('Close app'):
-        browser.quit()
-
-
-#
-# @pytest.fixture(scope='function', autouse=True)
-# def configure_browserstack():
-#     if config.context == 'android':
-#         options = UiAutomator2Options().load_capabilities({
-#             # Specify device and os_version for testing
-#             "platformName": "android",
-#             "platformVersion": "9.0",
-#             "deviceName": "Google Pixel 3",
-#
-#             # Set URL of the application under test
-#             "app": config.url,
-#
-#             # Set other BrowserStack capabilities
-#             'bstack:options': {
-#                 "projectName": "First Python project",
-#                 "buildName": "browserstack-build-1",
-#                 "sessionName": "BStack first_test",
-#
-#                 # Set your access credentials
-#                 "userName": config.login,
-#                 "accessKey": config.password,
-#             }
-#         })
-#     else:
-#         options = XCUITestOptions().load_capabilities({
-#             # Set URL of the application under test
-#             "app": config.url,
-#
-#             # Specify device and os_version for testing
-#             "deviceName": "iPhone 11 Pro",
-#             "platformName": "ios",
-#             "platformVersion": "13",
-#
-#             # Set other BrowserStack capabilities
-#             "bstack:options": {
-#                 "userName": config.login,
-#                 "accessKey": config.password,
-#                 "projectName": "First Python project",
-#                 "buildName": "browserstack-build-1",
-#                 "sessionName": "BStack first_test"
-#             }
-#         })
-#
-#     configure_browser(options)
-#
-#     yield
-#
-#     handle_attachments()
-#
-#     browser.quit()
+    handle_attachments()
+    # with allure.step('Close app'):
+    #    browser.quit()
 
 
 def handle_attachments():
     attach.attach_screenshot()
-    attach.attach_bstack_video(browser.driver.session_id)
     attach.attach_screen_xml_dump()
+    with allure.step('Tear down app session'):
+        browser.quit()
+    attach.attach_bstack_video(browser.driver.session_id)
 
 
 def configure_browser(options):
-    browser.config.driver = webdriver.Remote('http://hub.browserstack.com/wd/hub', options=options)
-    # browser.config.driver = webdriver.
+    with allure.step('Init app session'):
+        browser.config.driver = webdriver.Remote(
+            'http://hub.browserstack.com/wd/hub',
+            options=options)
     # browser.config.driver_remote_url = 'http://hub.browserstack.com/wd/hub'
     # browser.config.driver_options = options
     # browser.config.timeout = config.timeout
