@@ -4,6 +4,8 @@ from appium.webdriver.common.appiumby import AppiumBy
 from selene import browser, have
 
 
+@pytest.mark.both
+@pytest.mark.android
 def test_search_appium_articles(configure_android_options):
     with allure.step('Type search'):
         browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()
@@ -15,6 +17,8 @@ def test_search_appium_articles(configure_android_options):
         results.first.should(have.text('Appium'))
 
 
+@pytest.mark.both
+@pytest.mark.android
 def test_search_and_open_appium_articles(configure_android_options):
     with allure.step('Type search'):
         browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()

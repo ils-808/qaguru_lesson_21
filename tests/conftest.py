@@ -15,15 +15,14 @@ from selene import browser, support
 
 
 class Configure(pydantic_settings.BaseSettings):
-    context: Literal['ios', 'android'] = 'android'
     login: str = 'dummy_value'
     password: str = 'dummy_value'
-    url: str = 'dummy_value'
+    android_url: str = 'dummy_value'
+    ios_url: str = 'dummy_value'
     timeout: float = 20.0
 
 
-print(path(f'.env.{Configure().context}'))
-config = Configure(_env_file=path(f'.env.{Configure().context}'))
+config = Configure(_env_file=path(f'.env'))
 
 
 @pytest.fixture(scope='function')
@@ -35,7 +34,7 @@ def configure_android_options():
         "deviceName": "Samsung Galaxy S23 Ultra",
 
         # Set URL of the application under test
-        "app": config.url,
+        "app": config.android_url,
 
         # Set other BrowserStack capabilities
         'bstack:options': {
@@ -63,7 +62,7 @@ def configure_android_options():
 def configure_ios_options():
     options = XCUITestOptions().load_capabilities({
         # Set URL of the application under test
-        "app": config.url,
+        "app": config.ios_url,
 
         # Specify device and os_version for testing
         "deviceName": "iPhone 11 Pro",
