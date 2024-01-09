@@ -9,7 +9,6 @@ readme = "README.md"
 python = "^3.10"
 pydantic-settings = "2.1.0"
 selene = "2.0.0rc4"
-browserstack-local = "1.2.7"
 appium-python-client = "3.1.1"
 allure-pytest = "2.13.2"
 
