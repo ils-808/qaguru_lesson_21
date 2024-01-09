@@ -1,7 +1,16 @@
+import os
+
 import pydantic_settings
 from typing import Literal
 
-from utils.resource_handler import path
+from dotenv import load_dotenv
+from pydantic import BaseModel
+
+from utils.resource_handler import get_path
+
+load_dotenv(get_path('.env.credentials'))
+lgn = os.getenv('login')
+pwd = os.getenv('password')
 
 
 class Configure(pydantic_settings.BaseSettings):
@@ -12,12 +21,8 @@ class Configure(pydantic_settings.BaseSettings):
     app: str = './app-alpha-universal-release.apk'
     server_url: str = 'http://127.0.0.1:4723'
     platformVersion: str = "13.0"
+    login: str = lgn
+    password: str = pwd
 
 
-class Credentials(pydantic_settings.BaseSettings):
-    login: str = 'dummy_value'
-    password: str = 'dummy_value'
-
-
-loaded_configuration = Configure(_env_file=path(f'.env.{Configure().context}'))
-loaded_creds = Credentials(_env_file=path(f'.env.credentials'))
+loaded_configuration = Configure(_env_file=get_path(f'.env.{Configure().context}'))

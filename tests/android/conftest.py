@@ -2,13 +2,13 @@ import allure
 import allure_commons
 import pytest
 from appium import webdriver
-from config import loaded_configuration, loaded_creds
+from config import loaded_configuration
 from utils import attach
 
 from appium.options.android import UiAutomator2Options
 from selene import browser, support
 
-from utils.resource_handler import path
+from utils.resource_handler import get_path
 
 
 @pytest.fixture(scope='function')
@@ -19,7 +19,7 @@ def configure_android_options():
     options.set_capability('appWaitActivity', loaded_configuration.appWaitActivity)
     options.set_capability('app', (
         loaded_configuration.app if loaded_configuration.app.startswith('/') or loaded_configuration.app.startswith('bs://')
-        else path(loaded_configuration.app)
+        else get_path(loaded_configuration.app)
     ))
 
     if loaded_configuration.context == 'remote':
@@ -32,8 +32,8 @@ def configure_android_options():
                         "sessionName": "BStack first_test",
 
                         # Set your access credentials
-                        "userName": loaded_creds.login,
-                        "accessKey": loaded_creds.password,
+                        "userName": loaded_configuration.login,
+                        "accessKey": loaded_configuration.password,
             }
         )
 
