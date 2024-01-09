@@ -2,10 +2,10 @@
 Задание к двадцать второму уроку курса QA Guru
 
 ## Локальный запуск на эмулированном устройсте
-pytest -s -v context=local .
+context="local" pytest .
 
 ## Удаленный запуск на BrowserStack
-pytest -s -v --context=remote .
+context="remote" pytest .
 
 ## Просмотр отчета allure
 allure serve .\allure-results\
