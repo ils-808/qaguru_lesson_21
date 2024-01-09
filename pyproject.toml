@@ -6,7 +6,7 @@ authors = ["qwe qwe"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.10"
 pydantic-settings = "2.1.0"
 selene = "2.0.0rc4"
 browserstack-local = "1.2.7"
