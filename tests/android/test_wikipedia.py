@@ -5,6 +5,8 @@ from selene import browser, have
 
 
 def test_search_appium_articles(configure_android_options):
+    with allure.step('Skip intro'):
+        browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
     with allure.step('Type search'):
         browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()
         browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/search_src_text")).type('Appium')
@@ -16,6 +18,8 @@ def test_search_appium_articles(configure_android_options):
 
 
 def test_search_and_open_appium_articles(configure_android_options):
+    with allure.step('Skip intro'):
+        browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
     with allure.step('Type search'):
         browser.element((AppiumBy.ACCESSIBILITY_ID, "Search Wikipedia")).click()
         browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/search_src_text")).type('Appium')
@@ -24,3 +28,22 @@ def test_search_and_open_appium_articles(configure_android_options):
     # THEN
     with allure.step('Verify article title'):
         browser.element((AppiumBy.ACCESSIBILITY_ID, 'Appium'))
+
+def test_getting_started():
+    with allure.step('Verify first welcome screen'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView')).should(have.text('The Free Encyclopedia\n…in over 300 languages'))
+
+    with allure.step('Press Continue button'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/fragment_onboarding_forward_button')).click()
+    with allure.step('Verify second welcome screen'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView')).should(have.text('New ways to explore'))
+
+    with allure.step('Press Continue button'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/fragment_onboarding_forward_button')).click()
+    with allure.step('Verify third welcome screen'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView')).should(have.text('Reading lists with sync'))
+
+    with allure.step('Press Continue button'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/fragment_onboarding_forward_button')).click()
+    with allure.step('Verify fourth welcome screen'):
+        browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView')).should(have.text('Send anonymous data'))
