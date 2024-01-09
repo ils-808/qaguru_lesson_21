@@ -2,7 +2,7 @@ import allure
 import allure_commons
 import pytest
 from appium import webdriver
-from config import loaded_configuration
+from config import loaded_configuration, loaded_creds
 from utils import attach
 
 from appium.options.android import UiAutomator2Options
@@ -32,8 +32,8 @@ def configure_android_options():
                         "sessionName": "BStack first_test",
 
                         # Set your access credentials
-                        "userName": loaded_configuration.login,
-                        "accessKey": loaded_configuration.password,
+                        "userName": loaded_creds.login,
+                        "accessKey": loaded_creds.password,
             }
         )
 
