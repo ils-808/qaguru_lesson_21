@@ -11,14 +11,15 @@ from selene import browser, support
 from utils.resource_handler import get_path
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture(scope='function', autouse=True)
 def configure_android_options():
     options = UiAutomator2Options()
 
     options.set_capability('deviceName', loaded_configuration.deviceName)
     options.set_capability('appWaitActivity', loaded_configuration.appWaitActivity)
     options.set_capability('app', (
-        loaded_configuration.app if loaded_configuration.app.startswith('/') or loaded_configuration.app.startswith('bs://')
+        loaded_configuration.app if loaded_configuration.app.startswith('/') or loaded_configuration.app.startswith(
+            'bs://')
         else get_path(loaded_configuration.app)
     ))
 
@@ -27,13 +28,13 @@ def configure_android_options():
         options.set_capability(
             # Set other BrowserStack capabilities
             'bstack:options', {
-                        "projectName": "First Python project",
-                        "buildName": "browserstack-build-1",
-                        "sessionName": "BStack first_test",
+                "projectName": "First Python project",
+                "buildName": "browserstack-build-1",
+                "sessionName": "BStack first_test",
 
-                        # Set your access credentials
-                        "userName": loaded_configuration.login,
-                        "accessKey": loaded_configuration.password,
+                # Set your access credentials
+                "userName": loaded_configuration.login,
+                "accessKey": loaded_configuration.password,
             }
         )
 
@@ -41,10 +42,6 @@ def configure_android_options():
 
     yield
 
-    handle_attachments()
-
-
-def handle_attachments():
     attach.attach_screenshot()
     attach.attach_screen_xml_dump()
     with allure.step('Tear down app session'):

@@ -5,7 +5,7 @@ from selene import browser, have
 
 
 
-def test_getting_started(configure_android_options):
+def test_getting_started():
     with allure.step('Verify first welcome screen'):
         browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView')).should(have.text('The Free Encyclopedia\n…in over 300 languages'))
 
@@ -24,7 +24,7 @@ def test_getting_started(configure_android_options):
     with allure.step('Verify fourth welcome screen'):
         browser.element((AppiumBy.ID, 'org.wikipedia.alpha:id/primaryTextView')).should(have.text('Send anonymous data'))
 
-def test_search_appium_articles(configure_android_options):
+def test_search_appium_articles():
     with allure.step('Skip intro'):
         browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
     with allure.step('Type search'):
@@ -37,7 +37,7 @@ def test_search_appium_articles(configure_android_options):
         results.first.should(have.text('Appium'))
 
 
-def test_search_and_open_appium_articles(configure_android_options):
+def test_search_and_open_appium_articles():
     with allure.step('Skip intro'):
         browser.element((AppiumBy.ID, "org.wikipedia.alpha:id/fragment_onboarding_skip_button")).click()
     with allure.step('Type search'):

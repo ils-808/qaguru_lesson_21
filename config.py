@@ -14,7 +14,7 @@ pwd = os.getenv('password')
 
 
 class Configure(pydantic_settings.BaseSettings):
-    context: Literal['local', 'remote'] = 'remote'
+    context: Literal['local', 'remote', 'local_real'] = 'remote'
     deviceName: str = 'Pixel_3a_API_34_extension_level_7_x86_64'
     timeout: float = 20.0
     appWaitActivity: str = "org.wikipedia.*"
